@@ -1,5 +1,5 @@
-import { HostawayReview, NormalizedReview, RatingDistribution } from './types';
-import { format, subDays, parseISO } from 'date-fns';
+import { HostawayReview, NormalizedReview } from './types';
+
 
 // Extract listing ID from name (mocked for now)
 export function extractListingId(listingName: string): string {
@@ -55,15 +55,9 @@ export function normalizeReview(review: HostawayReview): NormalizedReview {
 }
 
 // Calculate rating distribution
-export function calculateRatingDistribution(reviews: NormalizedReview[]): RatingDistribution[] {
-  const distribution: { [rating: number]: number } = {};
+export function calculateRatingDistribution(reviews: NormalizedReview[]) {
+  const distribution: { [key: number]: number } = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
   
-  // Initialize with 1-5 ratings
-  for (let i = 1; i <= 5; i++) {
-    distribution[i] = 0;
-  }
-
-  // Count reviews per rating (round to nearest integer for distribution)
   reviews.forEach(review => {
     const roundedRating = Math.round(review.overallRating);
     if (roundedRating >= 1 && roundedRating <= 5) {
