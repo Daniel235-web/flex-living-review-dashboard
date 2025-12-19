@@ -54,7 +54,7 @@ export default function ReviewPage() {  // Singular name
         </div>
       </div>
 
-      {/* Stats Overview */}
+      
       <div className="grid gap-4 md:grid-cols-4">
         <Card>
           <CardContent className="p-6">
@@ -119,7 +119,7 @@ export default function ReviewPage() {  // Singular name
         </Card>
       </div>
 
-      {/* Reviews List */}
+      
       <Card>
         <CardContent className="p-6">
           <div className="flex items-center justify-between mb-6">

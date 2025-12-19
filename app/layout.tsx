@@ -21,9 +21,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.className} bg-gray-50 text-gray-900`}>
         <Providers>
-          {/* Remove flex container - Sidebar is fixed positioned */}
+         
           <Sidebar />
-          <div className="md:ml-64"> {/* Add left margin on desktop */}
+          <div className="md:ml-64"> 
             <Header />
             <main className="p-4 md:p-6">{children}</main>
           </div>

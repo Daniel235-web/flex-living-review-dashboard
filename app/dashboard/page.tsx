@@ -14,13 +14,13 @@ import { Button } from '../../components/ui/button';
 import { Skeleton } from '../../components/ui/skeleton';
 
 export default function DashboardPage() {
-  // Fetch function with fallback
+ 
   const fetchDataWithFallback = async () => {
     try {
       const response = await fetch('/api/reviews/hostaway');
       if (!response.ok) throw new Error('API failed');
       const data = await response.json();
-      return data.data; // Return the data part
+      return data.data; 
     } catch (error) {
       console.log('Using fallback data');
       return {
@@ -56,7 +56,7 @@ export default function DashboardPage() {
     }
   };
 
-  // Single useQuery hook
+ 
   const { data: reviewsData, isLoading } = useQuery({
     queryKey: ['dashboard-reviews'],
     queryFn: fetchDataWithFallback,
@@ -86,7 +86,7 @@ export default function DashboardPage() {
     );
   }
 
-  // Extract data from response
+
   const reviews = reviewsData?.reviews || [];
   const stats = reviewsData?.statistics || {
     total: 0,
@@ -95,7 +95,7 @@ export default function DashboardPage() {
     pendingCount: 0,
   };
 
-  // Calculate dashboard stats from reviews
+ 
   const dashboardStats = {
   totalReviews: stats.total,
   averageRating: stats.averageRating,
@@ -125,7 +125,7 @@ export default function DashboardPage() {
   const ratingDistribution = calculateRatingDistribution(reviews);
   const recentReviews = reviews.slice(0, 5);
 
-  // Calculate insights
+
   const highRatingReviews = reviews.filter(r => r.overallRating >= 4.5).length;
   const lowRatingReviews = reviews.filter(r => r.overallRating <= 2.5).length;
   const responseNeeded = reviews.filter(r => r.status === 'pending').length;

@@ -1,16 +1,15 @@
 import { HostawayReview, NormalizedReview } from './types';
 
 
-// Extract listing ID from name (mocked for now)
+
 export function extractListingId(listingName: string): string {
-  // Simple hash function for demo
+  
   return `list_${Math.abs(listingName.split('').reduce((a, b) => {
     a = ((a << 5) - a) + b.charCodeAt(0);
     return a & a;
   }, 0))}`;
 }
 
-// Determine channel from listing name or other data
 export function determineChannel(listingName: string): string {
   if (listingName.toLowerCase().includes('airbnb')) return 'Airbnb';
   if (listingName.toLowerCase().includes('booking')) return 'Booking.com';
@@ -18,22 +17,18 @@ export function determineChannel(listingName: string): string {
   return 'Direct';
 }
 
-// Calculate sentiment from rating
 export function calculateSentiment(rating: number): 'positive' | 'neutral' | 'negative' {
   if (rating >= 4) return 'positive';
   if (rating >= 2.5) return 'neutral';
   return 'negative';
 }
 
-// Normalize Hostaway review data
 export function normalizeReview(review: HostawayReview): NormalizedReview {
-  // Calculate average category rating
   const categoryRatings = review.reviewCategory.map(cat => cat.rating);
   const avgCategoryRating = categoryRatings.length > 0 
     ? categoryRatings.reduce((a, b) => a + b, 0) / categoryRatings.length 
     : 0;
 
-  // Use provided rating or calculate from categories
   const overallRating = review.rating !== null ? review.rating : avgCategoryRating;
 
   return {
@@ -54,7 +49,6 @@ export function normalizeReview(review: HostawayReview): NormalizedReview {
   };
 }
 
-// Calculate rating distribution
 export function calculateRatingDistribution(reviews: NormalizedReview[]) {
   const distribution: { [key: number]: number } = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
   
@@ -74,7 +68,6 @@ export function calculateRatingDistribution(reviews: NormalizedReview[]) {
   }));
 }
 
-// Generate mock data for testing
 export function generateMockReviews(count: number): HostawayReview[] {
   const mockReviews: HostawayReview[] = [];
   const listings = [
@@ -122,7 +115,6 @@ export function generateMockReviews(count: number): HostawayReview[] {
   return mockReviews;
 }
 
-// Filter reviews based on criteria
 export function filterReviews(
   reviews: NormalizedReview[],
   filters: {

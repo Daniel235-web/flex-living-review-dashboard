@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-// Force dynamic rendering - CRITICAL for Vercel
+
 export const dynamic = 'force-dynamic';
 
-// Hardcoded mock data - NO external dependencies
+
 const MOCK_REVIEWS = [
   {
     id: 7453,
@@ -67,7 +67,7 @@ const MOCK_REVIEWS = [
   }
 ];
 
-// Generate 20 more mock reviews
+
 function generateMoreReviews() {
   const reviews = [];
   const listings = [
@@ -108,10 +108,9 @@ export async function GET(request: NextRequest) {
   console.log('API called on Vercel - returning mock data');
   
   try {
-    // Combine all reviews
-    const allReviews = [...MOCK_REVIEWS, ...generateMoreReviews()];
     
-    // Calculate statistics
+    const allReviews = [...MOCK_REVIEWS, ...generateMoreReviews()];
+   
     const total = allReviews.length;
     const avgRating = total > 0 
       ? parseFloat((allReviews.reduce((sum, r) => sum + r.overallRating, 0) / total).toFixed(1))
@@ -125,7 +124,7 @@ export async function GET(request: NextRequest) {
       draftCount: allReviews.filter(r => r.status === 'draft').length,
     };
     
-    // Return response with proper headers
+    
     return NextResponse.json({
       status: 'success',
       data: {
@@ -150,7 +149,7 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error('API error (unexpected):', error);
     
-    // Fallback: return at least basic data
+    
     return NextResponse.json({
       status: 'success',
       data: {
@@ -163,7 +162,7 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// Simple POST handler
+
 export async function POST(request: NextRequest) {
   return NextResponse.json({
     status: 'success',
