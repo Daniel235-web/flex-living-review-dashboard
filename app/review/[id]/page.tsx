@@ -2,12 +2,12 @@
 
 import { useParams, useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
+import { Button } from '../../../components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card';
+import { Badge } from '../../../components/ui/badge';
+import { Separator } from '../../../components/ui/separator';
 import { ArrowLeft, Star, Calendar, User, Building, MessageSquare, CheckCircle, XCircle, Edit } from 'lucide-react';
-import { reviewsApi } from '@/lib/api';
+import { reviewsApi } from '../../../lib/api';
 import { format } from 'date-fns';
 
 export default function ReviewDetailsPage() {
