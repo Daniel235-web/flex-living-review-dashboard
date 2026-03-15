@@ -1,0 +1,28 @@
+node_modules
+.env
+.env.local
+coverage
+coverage.json
+typechain
+typechain-types
+cache
+artifacts
+deployments
+
+# Hardhat
+cache/
+artifacts/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Next.js
+frontend/.next/
+frontend/out/
+frontend/node_modules/
+frontend/.env.local
