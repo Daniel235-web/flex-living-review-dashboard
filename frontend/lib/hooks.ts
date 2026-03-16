@@ -332,6 +332,42 @@ export function useReputationPoints(address?: `0x${string}`) {
 }
 
 // ═══════════════════════════════════════════════════════
+// Test Token Minting (For Hackathon Demo)
+// ═══════════════════════════════════════════════════════
+
+export function useMintTestUSDC() {
+  const { writeContract, data: hash, isPending } = useWriteContract();
+  const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({ hash });
+
+  const mintUSDC = (to: `0x${string}`, amount: string = "10000") => {
+    writeContract({
+      address: CONTRACT_ADDRESSES.mockUSDC,
+      abi: MockUSDCABI,
+      functionName: "mint",
+      args: [to, parseUnits(amount, 6)],
+    });
+  };
+
+  return { mintUSDC, isPending, isConfirming, isSuccess, hash };
+}
+
+export function useMintTestSBT() {
+  const { writeContract, data: hash, isPending } = useWriteContract();
+  const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({ hash });
+
+  const mintSBT = (to: `0x${string}`) => {
+    writeContract({
+      address: CONTRACT_ADDRESSES.reputationSBT,
+      abi: ReputationSBTABI,
+      functionName: "mintSBT",
+      args: [to, "ipfs://QmTestURI"],
+    });
+  };
+
+  return { mintSBT, isPending, isConfirming, isSuccess, hash };
+}
+
+// ═══════════════════════════════════════════════════════
 // Utility
 // ═══════════════════════════════════════════════════════
 

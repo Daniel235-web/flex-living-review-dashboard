@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useAccount, useConnect, useDisconnect, useBalance } from "wagmi";
-import { useState } from "react";
+import { useAccount, useConnect, useDisconnect, useBalance, useSwitchChain, useChainId } from "wagmi";
+import { useState, useEffect, type ReactNode } from "react";
 import { formatUnits } from "viem";
+import { polkadotHubTestnet } from "@/lib/chains";
+import { Building2, Lock, Star, Trophy, Vote, Menu, X } from "lucide-react";
 
 export function Navbar() {
   const pathname = usePathname();
@@ -12,15 +14,27 @@ export function Navbar() {
   const { connect, connectors } = useConnect();
   const { disconnect } = useDisconnect();
   const { data: balance } = useBalance({ address });
+  const { switchChain } = useSwitchChain();
+  const chainId = useChainId();
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const navLinks = [
+  const isWrongNetwork = isConnected && chainId !== polkadotHubTestnet.id;
+
+  // Auto-switch to correct chain on connect
+  useEffect(() => {
+    if (isWrongNetwork && switchChain) {
+      switchChain({ chainId: polkadotHubTestnet.id });
+    }
+  }, [isConnected, chainId, isWrongNetwork, switchChain]);
+
+  type NavLink = { href: string; label: string; icon: string | ReactNode };
+  const navLinks: NavLink[] = [
     { href: "/", label: "Dashboard", icon: "◈" },
-    { href: "/properties", label: "Properties", icon: "⬡" },
-    { href: "/escrow", label: "Escrow", icon: "◇" },
-    { href: "/reviews", label: "Reviews", icon: "☆" },
-    { href: "/reputation", label: "Reputation", icon: "◎" },
-    { href: "/governance", label: "Governance", icon: "△" },
+    { href: "/properties", label: "Properties", icon: <Building2 size={16} /> },
+    { href: "/escrow", label: "Escrow", icon: <Lock size={16} /> },
+    { href: "/reviews", label: "Reviews", icon: <Star size={16} /> },
+    { href: "/reputation", label: "Reputation", icon: <Trophy size={16} /> },
+    { href: "/governance", label: "Governance", icon: <Vote size={16} /> },
   ];
 
   return (
@@ -46,12 +60,11 @@ export function Navbar() {
                   <Link
                     key={l.href}
                     href={l.href}
-                    className={`relative px-3.5 py-1.5 rounded-lg text-[13px] transition-all duration-300 ${
-                      isActive
-                        ? "text-white bg-white/[0.08] shadow-sm"
-                        : "text-white/40 hover:text-white/70"
+                    className={`relative px-3.5 py-1.5 rounded-lg text-[13px] transition-all duration-300 flex items-center gap-2 ${
+                      isActive ? "text-white bg-white/[0.08] shadow-sm" : "text-white/40 hover:text-white/70"
                     }`}
                   >
+                    {typeof l.icon === "string" ? <span>{l.icon}</span> : l.icon}
                     {l.label}
                   </Link>
                 );
@@ -94,7 +107,13 @@ export function Navbar() {
                 className="md:hidden w-9 h-9 rounded-xl bg-white/[0.04] border border-white/[0.06] flex items-center justify-center text-white/40 hover:text-white/70 transition-colors"
                 onClick={() => setMobileOpen(!mobileOpen)}
               >
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
                   {mobileOpen ? (
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                   ) : (

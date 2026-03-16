@@ -15,9 +15,7 @@ interface CardProps {
 
 export function Card({ title, icon, children, className = "", gradient, glow, noPad }: CardProps) {
   return (
-    <div
-      className={`glass rounded-2xl ${noPad ? "" : "p-6"} ${glow ? `glow-${glow}` : ""} ${className}`}
-    >
+    <div className={`glass rounded-2xl ${noPad ? "" : "p-6"} ${glow ? `glow-${glow}` : ""} ${className}`}>
       {(title || icon) && (
         <div className={`flex items-center gap-3 ${noPad ? "px-6 pt-6" : ""} mb-5`}>
           {icon && (
@@ -28,9 +26,7 @@ export function Card({ title, icon, children, className = "", gradient, glow, no
           {title && (
             <h3
               className={`font-semibold text-[15px] tracking-tight ${
-                gradient
-                  ? `bg-linear-to-r ${gradient} bg-clip-text text-transparent`
-                  : "text-white/90"
+                gradient ? `bg-linear-to-r ${gradient} bg-clip-text text-transparent` : "text-white/90"
               }`}
             >
               {title}
@@ -49,7 +45,7 @@ export function Card({ title, icon, children, className = "", gradient, glow, no
 interface StatCardProps {
   label: string;
   value: string | number;
-  icon: string;
+  icon: string | ReactNode;
   change?: string;
   gradient: string;
 }
@@ -63,9 +59,9 @@ export function StatCard({ label, value, icon, change, gradient }: StatCardProps
       />
       <div className="relative">
         <div className="flex items-center justify-between mb-4">
-          <span className="text-lg w-10 h-10 rounded-xl bg-white/[0.04] flex items-center justify-center">
-            {icon}
-          </span>
+          <div className="w-10 h-10 rounded-xl bg-white/[0.04] flex items-center justify-center">
+            {typeof icon === "string" ? <span className="text-lg">{icon}</span> : icon}
+          </div>
           {change && (
             <span className="text-[11px] font-medium text-emerald-400 bg-emerald-400/10 px-2.5 py-1 rounded-full tracking-wide">
               {change}
@@ -112,10 +108,8 @@ export function Button({
       "bg-linear-to-r from-violet-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 text-white shadow-lg shadow-violet-900/25 hover:shadow-violet-900/40",
     secondary:
       "bg-white/[0.06] hover:bg-white/[0.1] text-white/80 border border-white/[0.08] hover:border-white/[0.15]",
-    danger:
-      "bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 hover:border-red-500/30",
-    ghost:
-      "hover:bg-white/[0.06] text-white/50 hover:text-white/80",
+    danger: "bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 hover:border-red-500/30",
+    ghost: "hover:bg-white/[0.06] text-white/50 hover:text-white/80",
   };
 
   const sizes = {
@@ -229,7 +223,17 @@ interface InputProps {
   mono?: boolean;
 }
 
-export function Input({ label, value, onChange, placeholder, type = "text", required, min, className = "", mono }: InputProps) {
+export function Input({
+  label,
+  value,
+  onChange,
+  placeholder,
+  type = "text",
+  required,
+  min,
+  className = "",
+  mono,
+}: InputProps) {
   return (
     <div className={className}>
       {label && <label className="block text-[13px] text-white/40 mb-1.5 tracking-wide">{label}</label>}
@@ -240,7 +244,9 @@ export function Input({ label, value, onChange, placeholder, type = "text", requ
         placeholder={placeholder}
         required={required}
         min={min}
-        className={`w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-white/90 text-sm focus:outline-none input-glow transition-all placeholder:text-white/20 ${mono ? "font-mono" : ""}`}
+        className={`w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-4 py-2.5 text-white/90 text-sm focus:outline-none input-glow transition-all placeholder:text-white/20 ${
+          mono ? "font-mono" : ""
+        }`}
       />
     </div>
   );

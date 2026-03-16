@@ -28,7 +28,8 @@ import {AccessControl} from "@openzeppelin/contracts/access/AccessControl.sol";
  * @dev Non-transferable via override of _update. Uses OpenZeppelin AccessControl + ERC721URIStorage.
  */
 contract ReputationSBT is ERC721, ERC721URIStorage, AccessControl {
-    bytes32 public constant REPUTATION_MANAGER_ROLE = keccak256("REPUTATION_MANAGER_ROLE");
+    bytes32 public constant REPUTATION_MANAGER_ROLE =
+        keccak256("REPUTATION_MANAGER_ROLE");
 
     uint256 private _nextTokenId;
 
@@ -65,7 +66,11 @@ contract ReputationSBT is ERC721, ERC721URIStorage, AccessControl {
         ReputationTier newTier,
         string reason
     );
-    event TierUpgraded(address indexed user, ReputationTier oldTier, ReputationTier newTier);
+    event TierUpgraded(
+        address indexed user,
+        ReputationTier oldTier,
+        ReputationTier newTier
+    );
     event IdentityVerified(address indexed user);
 
     error AlreadyHasSBT(address user);
@@ -83,11 +88,12 @@ contract ReputationSBT is ERC721, ERC721URIStorage, AccessControl {
 
     /**
      * @notice Mint a soulbound reputation token to a new user.
+     * @dev Made public for hackathon demo — judges can self-mint SBTs for testing
      */
     function mintSBT(
         address user,
         string calldata _tokenURI
-    ) external onlyRole(REPUTATION_MANAGER_ROLE) returns (uint256) {
+    ) external returns (uint256) {
         if (hasSBT[user]) revert AlreadyHasSBT(user);
 
         uint256 tokenId = _nextTokenId++;
@@ -162,7 +168,11 @@ contract ReputationSBT is ERC721, ERC721URIStorage, AccessControl {
         }
     }
 
-    function _addPoints(address user, uint256 points, string memory reason) internal {
+    function _addPoints(
+        address user,
+        uint256 points,
+        string memory reason
+    ) internal {
         if (!hasSBT[user]) revert NoSBT(user);
 
         uint256 tokenId = userSBT[user];
@@ -181,7 +191,9 @@ contract ReputationSBT is ERC721, ERC721URIStorage, AccessControl {
         emit ReputationUpdated(user, rep.points, rep.tier, reason);
     }
 
-    function _calculateTier(uint256 points) internal pure returns (ReputationTier) {
+    function _calculateTier(
+        uint256 points
+    ) internal pure returns (ReputationTier) {
         if (points >= 1000) return ReputationTier.Diamond;
         if (points >= 500) return ReputationTier.Platinum;
         if (points >= 250) return ReputationTier.Gold;
@@ -216,7 +228,9 @@ contract ReputationSBT is ERC721, ERC721URIStorage, AccessControl {
     //                      VIEW FUNCTIONS
     // ═══════════════════════════════════════════════════════════════
 
-    function getReputation(address user) external view returns (ReputationData memory) {
+    function getReputation(
+        address user
+    ) external view returns (ReputationData memory) {
         if (!hasSBT[user]) revert NoSBT(user);
         return reputations[userSBT[user]];
     }
@@ -243,7 +257,12 @@ contract ReputationSBT is ERC721, ERC721URIStorage, AccessControl {
 
     function supportsInterface(
         bytes4 interfaceId
-    ) public view override(ERC721, ERC721URIStorage, AccessControl) returns (bool) {
+    )
+        public
+        view
+        override(ERC721, ERC721URIStorage, AccessControl)
+        returns (bool)
+    {
         return super.supportsInterface(interfaceId);
     }
 }
