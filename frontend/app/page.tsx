@@ -271,6 +271,7 @@ function TestTokensSection({
   } = useMintTestSBT();
   const [usdcMinted, setUSDCMinted] = useState(false);
   const [sbtMinted, setSBTMinted] = useState(false);
+  const [sbtError, setSBTError] = useState<string | null>(null);
 
   const handleMintUSDC = () => {
     if (address) {
@@ -280,9 +281,14 @@ function TestTokensSection({
   };
 
   const handleMintSBT = () => {
+    setSBTError(null);
     if (address) {
-      mintSBT(address);
-      setSBTMinted(true);
+      try {
+        mintSBT(address);
+        setSBTMinted(true);
+      } catch (error) {
+        setSBTError("Failed to mint SBT. You may already have one.");
+      }
     }
   };
 
@@ -330,7 +336,7 @@ function TestTokensSection({
               {isUSDCPending ? (
                 <>
                   <Loader size={14} className="animate-spin" />
-                  Minting...
+                  Signing...
                 </>
               ) : isUSDCConfirming ? (
                 <>
@@ -352,7 +358,7 @@ function TestTokensSection({
                 <Trophy className="text-violet-400" size={18} />
                 <span className="text-sm font-semibold text-violet-300">Reputation SBT</span>
               </div>
-              {isSBTSuccess || sbtMinted ? (
+              {isSBTSuccess || sbtMinted || hasSBT ? (
                 <span className="text-xs px-2 py-1 rounded-full bg-violet-500/20 text-violet-300">
                   ✓ Minted
                 </span>
@@ -361,6 +367,11 @@ function TestTokensSection({
             <p className="text-xs text-white/40 mb-3">
               Mint your soulbound reputation token to start building trust
             </p>
+            {sbtError && (
+              <p className="text-xs text-red-300 mb-2 p-2 bg-red-500/10 rounded">
+                ⚠️ {sbtError}
+              </p>
+            )}
             <button
               onClick={handleMintSBT}
               disabled={isSBTPending || isSBTConfirming || isSBTSuccess || sbtMinted || hasSBT}
@@ -375,7 +386,7 @@ function TestTokensSection({
               {isSBTPending ? (
                 <>
                   <Loader size={14} className="animate-spin" />
-                  Minting...
+                  Signing...
                 </>
               ) : isSBTConfirming ? (
                 <>
