@@ -28,7 +28,8 @@ export default function EscrowPage() {
   // landlordProperties hook kept for potential use elsewhere
   const { data: landlordProperties } = useLandlordProperties(address);
   const { data: isAdmin } = useIsPropertyAdmin(address);
-  const adminAllowed = (typeof isAdmin === "boolean" ? isAdmin : undefined) ??
+  const adminAllowed =
+    (typeof isAdmin === "boolean" ? isAdmin : undefined) ??
     (address ? address.toLowerCase() === DEPLOYER_ADDRESS.toLowerCase() : false);
   const { data: tenantLeases } = useTenantLeases(address);
   const { data: history } = useTenantPaymentHistory(address);
@@ -50,9 +51,7 @@ export default function EscrowPage() {
           isConnected ? (
             <div className="flex gap-3">
               <ApproveUSDCButton />
-              <Button onClick={() => setShowForm(!showForm)}>
-                {showForm ? "Cancel" : "＋ New Lease"}
-              </Button>
+              <Button onClick={() => setShowForm(!showForm)}>{showForm ? "Cancel" : "＋ New Lease"}</Button>
               {adminAllowed && (
                 <Button variant="secondary" onClick={() => setShowAdmin(!showAdmin)}>
                   {showAdmin ? "Close Admin" : "Admin Panel"}
@@ -113,7 +112,7 @@ export default function EscrowPage() {
 
       {/* Admin Panel (only visible to admin) */}
       {showAdmin && isConnected && adminAllowed && (
-        <AdminPanel address={address} landlordProperties={landlordProperties} />
+        <AdminPanel address={address} landlordProperties={landlordProperties as unknown as bigint[] | undefined} />
       )}
 
       {/* How It Works */}
@@ -154,9 +153,13 @@ export default function EscrowPage() {
                 key={s.step}
                 className="glass rounded-xl p-5 text-center group hover:border-white/[0.08] transition-all relative overflow-hidden"
               >
-                <div className={`absolute -top-6 -right-6 w-16 h-16 rounded-full bg-linear-to-br ${s.color} opacity-[0.06] blur-xl`} />
+                <div
+                  className={`absolute -top-6 -right-6 w-16 h-16 rounded-full bg-linear-to-br ${s.color} opacity-[0.06] blur-xl`}
+                />
                 <div className="relative">
-                  <div className={`w-10 h-10 rounded-xl bg-linear-to-br ${s.color} mx-auto mb-3 flex items-center justify-center text-lg opacity-80`}>
+                  <div
+                    className={`w-10 h-10 rounded-xl bg-linear-to-br ${s.color} mx-auto mb-3 flex items-center justify-center text-lg opacity-80`}
+                  >
                     {s.icon}
                   </div>
                   <p className="text-[10px] font-bold text-white/20 uppercase tracking-widest mb-1">
@@ -255,7 +258,9 @@ function CreateLeaseForm({ onDone }: { onDone: () => void }) {
           <span className="text-4xl block mb-3">🎉</span>
           <h3 className="text-lg font-bold text-white/90 mb-1">Lease Created!</h3>
           <p className="text-white/40 text-sm mb-4">Security deposit has been escrowed.</p>
-          <Button onClick={onDone} variant="secondary">Close</Button>
+          <Button onClick={onDone} variant="secondary">
+            Close
+          </Button>
         </div>
       </Card>
     );
@@ -292,7 +297,8 @@ function CreateLeaseForm({ onDone }: { onDone: () => void }) {
           <div className="glass-subtle rounded-lg p-3 flex items-start gap-2">
             <span className="text-amber-400 text-sm mt-0.5">⚠</span>
             <p className="text-[12px] text-white/30">
-              Security deposit will be taken from your USDC balance immediately. Make sure you have approved the escrow contract.
+              Security deposit will be taken from your USDC balance immediately. Make sure you have approved
+              the escrow contract.
             </p>
           </div>
           <div className="flex gap-3">

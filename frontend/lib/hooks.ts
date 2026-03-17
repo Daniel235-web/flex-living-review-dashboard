@@ -127,8 +127,6 @@ export function useLandlordProperties(address?: `0x${string}`) {
   });
 }
 
-
-
 export function useListProperty() {
   const { writeContract, data: hash, isPending } = useWriteContract();
   const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({ hash });

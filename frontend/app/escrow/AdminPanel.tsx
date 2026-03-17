@@ -5,17 +5,36 @@ import { useProperty, useVerifyProperty, useActivateProperty } from "@/lib/hooks
 import { useState } from "react";
 import { useAccount } from "wagmi";
 
-export function AdminPanel({ address, landlordProperties }: { address?: string; landlordProperties?: bigint[] }) {
+export function AdminPanel({
+  address,
+  landlordProperties,
+}: {
+  address?: string;
+  landlordProperties?: bigint[];
+}) {
   const [selectedId, setSelectedId] = useState<string>("");
   const [propertyId, setPropertyId] = useState<string>("");
   const { data: property } = useProperty(propertyId ? BigInt(propertyId) : BigInt(0));
-  const status = property && property.status !== undefined ? Number(property.status) : undefined;
+  // `useProperty` returns unknown from the wagmi hook; normalize to `any` for rendering
+  const prop: any = property as any;
+  const status = prop && prop.status !== undefined ? Number(prop.status) : undefined;
   // extract landlord from returned struct (may be tuple/object depending on the hook)
-  const landlordAddr: string | undefined = property ? (property as any).landlord : undefined;
+  const landlordAddr: string | undefined = prop ? (prop.landlord as string | undefined) : undefined;
   const { address: connected } = useAccount();
-  const isLandlord = connected && landlordAddr ? connected.toLowerCase() === (landlordAddr as string).toLowerCase() : false;
-  const { verifyProperty, isPending: isVerifying, isConfirming: isVerifyingConfirm, isSuccess: isVerified } = useVerifyProperty();
-  const { activateProperty, isPending: isActivating, isConfirming: isActivatingConfirm, isSuccess: isActivated } = useActivateProperty();
+  const isLandlord =
+    connected && landlordAddr ? connected.toLowerCase() === (landlordAddr as string).toLowerCase() : false;
+  const {
+    verifyProperty,
+    isPending: isVerifying,
+    isConfirming: isVerifyingConfirm,
+    isSuccess: isVerified,
+  } = useVerifyProperty();
+  const {
+    activateProperty,
+    isPending: isActivating,
+    isConfirming: isActivatingConfirm,
+    isSuccess: isActivated,
+  } = useActivateProperty();
 
   return (
     <Card title="Admin Property Controls" icon="🛠" className="mb-8">
@@ -23,11 +42,11 @@ export function AdminPanel({ address, landlordProperties }: { address?: string; 
         <Input
           label="Property ID"
           value={propertyId}
-          onChange={e => setPropertyId(e.target.value)}
+          onChange={(e) => setPropertyId(e.target.value)}
           type="number"
           min="0"
         />
-        {property && (
+  {prop && (
           <div className="space-y-2">
             <div>
               <span className="font-mono text-xs text-white/40">Status: </span>
@@ -46,12 +65,14 @@ export function AdminPanel({ address, landlordProperties }: { address?: string; 
                 onClick={() => activateProperty(BigInt(propertyId))}
                 loading={isActivating || isActivatingConfirm}
                 disabled={isActivated || status !== 1 || !isLandlord}
-                title={!isLandlord ? "Only the landlord (owner) can activate this property" : undefined}
               >
                 Activate Property
               </Button>
               {!isLandlord && (
-                <p className="text-[12px] text-white/30 mt-2">Only the landlord (owner) may activate the property. Current owner: <span className="font-mono">{landlordAddr ?? "N/A"}</span></p>
+                <p className="text-[12px] text-white/30 mt-2">
+                  Only the landlord (owner) may activate the property. Current owner:{" "}
+                  <span className="font-mono">{landlordAddr ?? "N/A"}</span>
+                </p>
               )}
             </div>
             {isVerified && <Badge color="green">Verified!</Badge>}
