@@ -30,7 +30,8 @@ contract PropertyNFT is
     ReentrancyGuard,
     Pausable
 {
-    bytes32 public constant PROPERTY_MANAGER_ROLE = keccak256("PROPERTY_MANAGER_ROLE");
+    bytes32 public constant PROPERTY_MANAGER_ROLE =
+        keccak256("PROPERTY_MANAGER_ROLE");
     bytes32 public constant VERIFIER_ROLE = keccak256("VERIFIER_ROLE");
 
     uint256 private _nextTokenId;
@@ -44,13 +45,13 @@ contract PropertyNFT is
     }
 
     struct PropertyData {
-        string location;           // City, Country
-        uint16 capacity;           // Max tenants
-        uint256 monthlyRentWei;    // Rent in stablecoin wei
-        uint256 securityDeposit;   // Security deposit in stablecoin wei
-        uint8 aiQualityScore;      // 0-100, set by AI oracle
-        uint16 reviewCount;        // Number of verified reviews
-        uint32 avgRating;          // Average rating * 100 (e.g., 450 = 4.50)
+        string location; // City, Country
+        uint16 capacity; // Max tenants
+        uint256 monthlyRentWei; // Rent in stablecoin wei
+        uint256 securityDeposit; // Security deposit in stablecoin wei
+        uint8 aiQualityScore; // 0-100, set by AI oracle
+        uint16 reviewCount; // Number of verified reviews
+        uint32 avgRating; // Average rating * 100 (e.g., 450 = 4.50)
         PropertyStatus status;
         address landlord;
         uint256 listedAt;
@@ -77,18 +78,24 @@ contract PropertyNFT is
     event PropertySuspended(uint256 indexed tokenId, string reason);
     event PropertyDelisted(uint256 indexed tokenId);
     event AIScoreUpdated(uint256 indexed tokenId, uint8 newScore);
-    event ReviewAdded(uint256 indexed tokenId, uint16 newCount, uint32 newAvgRating);
+    event ReviewAdded(
+        uint256 indexed tokenId,
+        uint16 newCount,
+        uint32 newAvgRating
+    );
     event RentUpdated(uint256 indexed tokenId, uint256 newRent);
 
     error PropertyNotFound(uint256 tokenId);
-    error InvalidStatus(uint256 tokenId, PropertyStatus current, PropertyStatus required);
+    error InvalidStatus(
+        uint256 tokenId,
+        PropertyStatus current,
+        PropertyStatus required
+    );
     error NotLandlord(uint256 tokenId, address caller);
     error InvalidRating();
     error InvalidScore();
 
-    constructor(
-        address defaultAdmin
-    ) ERC721("FlexLiving Property", "FLPROP") {
+    constructor(address defaultAdmin) ERC721("FlexLiving Property", "FLPROP") {
         _grantRole(DEFAULT_ADMIN_ROLE, defaultAdmin);
         _grantRole(PROPERTY_MANAGER_ROLE, defaultAdmin);
         _grantRole(VERIFIER_ROLE, defaultAdmin);
@@ -142,9 +149,7 @@ contract PropertyNFT is
     //                   VERIFICATION WORKFLOW
     // ═══════════════════════════════════════════════════════════════
 
-    function verifyProperty(
-        uint256 tokenId
-    ) external onlyRole(VERIFIER_ROLE) {
+    function verifyProperty(uint256 tokenId) external onlyRole(VERIFIER_ROLE) {
         PropertyData storage prop = properties[tokenId];
         if (prop.landlord == address(0)) revert PropertyNotFound(tokenId);
         if (prop.status != PropertyStatus.Pending) {
@@ -158,7 +163,8 @@ contract PropertyNFT is
 
     function activateProperty(uint256 tokenId) external {
         PropertyData storage prop = properties[tokenId];
-        if (prop.landlord != msg.sender) revert NotLandlord(tokenId, msg.sender);
+        if (prop.landlord != msg.sender)
+            revert NotLandlord(tokenId, msg.sender);
         if (prop.status != PropertyStatus.Verified) {
             revert InvalidStatus(tokenId, prop.status, PropertyStatus.Verified);
         }
@@ -180,7 +186,10 @@ contract PropertyNFT is
 
     function delistProperty(uint256 tokenId) external {
         PropertyData storage prop = properties[tokenId];
-        if (prop.landlord != msg.sender && !hasRole(PROPERTY_MANAGER_ROLE, msg.sender)) {
+        if (
+            prop.landlord != msg.sender &&
+            !hasRole(PROPERTY_MANAGER_ROLE, msg.sender)
+        ) {
             revert NotLandlord(tokenId, msg.sender);
         }
 
@@ -240,7 +249,8 @@ contract PropertyNFT is
 
     function updateRent(uint256 tokenId, uint256 newRent) external {
         PropertyData storage prop = properties[tokenId];
-        if (prop.landlord != msg.sender) revert NotLandlord(tokenId, msg.sender);
+        if (prop.landlord != msg.sender)
+            revert NotLandlord(tokenId, msg.sender);
 
         prop.monthlyRentWei = newRent;
         emit RentUpdated(tokenId, newRent);
@@ -250,15 +260,21 @@ contract PropertyNFT is
     //                      VIEW FUNCTIONS
     // ═══════════════════════════════════════════════════════════════
 
-    function getProperty(uint256 tokenId) external view returns (PropertyData memory) {
+    function getProperty(
+        uint256 tokenId
+    ) external view returns (PropertyData memory) {
         return properties[tokenId];
     }
 
-    function getLandlordProperties(address landlord) external view returns (uint256[] memory) {
+    function getLandlordProperties(
+        address landlord
+    ) external view returns (uint256[] memory) {
         return landlordProperties[landlord];
     }
 
-    function getPropertiesByLocation(string calldata location) external view returns (uint256[] memory) {
+    function getPropertiesByLocation(
+        string calldata location
+    ) external view returns (uint256[] memory) {
         return propertiesByLocation[location];
     }
 
@@ -310,7 +326,12 @@ contract PropertyNFT is
 
     function supportsInterface(
         bytes4 interfaceId
-    ) public view override(ERC721, ERC721Enumerable, ERC721URIStorage, AccessControl) returns (bool) {
+    )
+        public
+        view
+        override(ERC721, ERC721Enumerable, ERC721URIStorage, AccessControl)
+        returns (bool)
+    {
         return super.supportsInterface(interfaceId);
     }
 }
