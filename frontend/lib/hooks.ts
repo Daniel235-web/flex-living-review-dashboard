@@ -59,6 +59,37 @@ export function useDelegateFlex() {
 
 // ═══════════════════════════════════════════════════════
 // PropertyNFT Hooks
+export function useVerifyProperty() {
+  const { writeContract, data: hash, isPending } = useWriteContract();
+  const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({ hash });
+
+  const verifyProperty = (tokenId: bigint) => {
+    writeContract({
+      address: CONTRACT_ADDRESSES.propertyNFT,
+      abi: PropertyNFTABI,
+      functionName: "verifyProperty",
+      args: [tokenId],
+    });
+  };
+
+  return { verifyProperty, isPending, isConfirming, isSuccess, hash };
+}
+
+export function useActivateProperty() {
+  const { writeContract, data: hash, isPending } = useWriteContract();
+  const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({ hash });
+
+  const activateProperty = (tokenId: bigint) => {
+    writeContract({
+      address: CONTRACT_ADDRESSES.propertyNFT,
+      abi: PropertyNFTABI,
+      functionName: "activateProperty",
+      args: [tokenId],
+    });
+  };
+
+  return { activateProperty, isPending, isConfirming, isSuccess, hash };
+}
 // ═══════════════════════════════════════════════════════
 
 export function usePropertyCount() {
@@ -96,6 +127,8 @@ export function useLandlordProperties(address?: `0x${string}`) {
   });
 }
 
+
+
 export function useListProperty() {
   const { writeContract, data: hash, isPending } = useWriteContract();
   const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({ hash });
@@ -122,6 +155,18 @@ export function useListProperty() {
   };
 
   return { listProperty, isPending, isConfirming, isSuccess, hash };
+}
+
+// Check if an address has the DEFAULT_ADMIN_ROLE on PropertyNFT
+export function useIsPropertyAdmin(address?: `0x${string}`) {
+  const DEFAULT_ADMIN_ROLE = `0x${"00".repeat(32)}`;
+  return useReadContract({
+    address: CONTRACT_ADDRESSES.propertyNFT,
+    abi: PropertyNFTABI,
+    functionName: "hasRole",
+    args: address ? [DEFAULT_ADMIN_ROLE, address] : undefined,
+    query: { enabled: !!address },
+  });
 }
 
 // ═══════════════════════════════════════════════════════

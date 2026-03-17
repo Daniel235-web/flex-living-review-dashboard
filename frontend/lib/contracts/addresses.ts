@@ -13,3 +13,6 @@ export const CONTRACT_ADDRESSES = {
   timelock: "0x7A6d529779A97B23fbb1e0Fe82BAD0B25990d217" as `0x${string}`,
   governor: "0xC2d7F62B44bcF9FDc14f03ca81cC2Ce0E9d20dAB" as `0x${string}`,
 } as const;
+
+// Deployer / demo admin address (granted DEFAULT_ADMIN_ROLE, PROPERTY_MANAGER_ROLE, VERIFIER_ROLE)
+export const DEPLOYER_ADDRESS = "0x297c548591E9b3da718fad0a5664fE0C4B42462c" as `0x${string}`;

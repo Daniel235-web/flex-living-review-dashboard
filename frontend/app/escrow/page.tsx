@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useAccount } from "wagmi";
 import { Card, Button, Badge, StatCard, PageHeader, Input, EmptyState } from "@/components/ui";
+import { AdminPanel } from "./AdminPanel";
 import {
   useTenantLeases,
   useLease,
@@ -14,12 +15,21 @@ import {
   formatUSDC,
   formatFLEX,
   useFlexBalance,
+  useLandlordProperties,
+  useIsPropertyAdmin,
 } from "@/lib/hooks";
-import { CONTRACT_ADDRESSES as ADDRS } from "@/lib/contracts/addresses";
+import { CONTRACT_ADDRESSES as ADDRS, DEPLOYER_ADDRESS } from "@/lib/contracts/addresses";
 import { maxUint256 } from "viem";
 
 export default function EscrowPage() {
+  // Admin panel state
+  const [showAdmin, setShowAdmin] = useState(false);
   const { address, isConnected } = useAccount();
+  // landlordProperties hook kept for potential use elsewhere
+  const { data: landlordProperties } = useLandlordProperties(address);
+  const { data: isAdmin } = useIsPropertyAdmin(address);
+  const adminAllowed = (typeof isAdmin === "boolean" ? isAdmin : undefined) ??
+    (address ? address.toLowerCase() === DEPLOYER_ADDRESS.toLowerCase() : false);
   const { data: tenantLeases } = useTenantLeases(address);
   const { data: history } = useTenantPaymentHistory(address);
   const { data: usdcBal } = useUSDCBalance(address);
@@ -43,6 +53,11 @@ export default function EscrowPage() {
               <Button onClick={() => setShowForm(!showForm)}>
                 {showForm ? "Cancel" : "＋ New Lease"}
               </Button>
+              {adminAllowed && (
+                <Button variant="secondary" onClick={() => setShowAdmin(!showAdmin)}>
+                  {showAdmin ? "Close Admin" : "Admin Panel"}
+                </Button>
+              )}
             </div>
           ) : undefined
         }
@@ -95,6 +110,11 @@ export default function EscrowPage() {
           )}
         </Card>
       </div>
+
+      {/* Admin Panel (only visible to admin) */}
+      {showAdmin && isConnected && adminAllowed && (
+        <AdminPanel address={address} landlordProperties={landlordProperties} />
+      )}
 
       {/* How It Works */}
       <div className="animate-fadeUp" style={{ animationDelay: "0.2s" }}>

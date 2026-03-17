@@ -367,11 +367,7 @@ function TestTokensSection({
             <p className="text-xs text-white/40 mb-3">
               Mint your soulbound reputation token to start building trust
             </p>
-            {sbtError && (
-              <p className="text-xs text-red-300 mb-2 p-2 bg-red-500/10 rounded">
-                ⚠️ {sbtError}
-              </p>
-            )}
+            {sbtError && <p className="text-xs text-red-300 mb-2 p-2 bg-red-500/10 rounded">⚠️ {sbtError}</p>}
             <button
               onClick={handleMintSBT}
               disabled={isSBTPending || isSBTConfirming || isSBTSuccess || sbtMinted || hasSBT}
