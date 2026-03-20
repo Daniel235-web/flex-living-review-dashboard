@@ -38,7 +38,6 @@ export default function PropertiesPage() {
 
       {showForm && <ListPropertyForm onDone={() => setShowForm(false)} />}
 
-      {/* My Properties */}
       {Array.isArray(myProperties) && (myProperties as bigint[]).length > 0 && (
         <div className="animate-fadeUp">
           <Card title="My Properties" icon="🏠" glow="purple">
@@ -51,7 +50,6 @@ export default function PropertiesPage() {
         </div>
       )}
 
-      {/* All Properties */}
       <div className="animate-fadeUp" style={{ animationDelay: "0.1s" }}>
         <Card title="All Listed Properties" icon="��️">
           {count === 0 ? (
@@ -125,7 +123,6 @@ function PropertyCard({ tokenId }: { tokenId: bigint }) {
 
   return (
     <div className="glass rounded-xl p-5 group hover:border-white/[0.08] transition-all relative overflow-hidden">
-      {/* Subtle corner glow */}
       <div className="absolute -top-10 -right-10 w-24 h-24 rounded-full bg-violet-500/[0.06] blur-2xl group-hover:bg-violet-500/[0.1] transition-all" />
       <div className="relative">
         <div className="flex items-start justify-between mb-3">
