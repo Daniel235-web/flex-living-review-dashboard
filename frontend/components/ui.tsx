@@ -1,8 +1,6 @@
 import { type ReactNode } from "react";
 
-/* ═══════════════════════════════════════════════════════
-   GLASS CARD — The foundation of the design system
-   ═══════════════════════════════════════════════════════ */
+
 interface CardProps {
   title?: string;
   icon?: string;
@@ -39,9 +37,7 @@ export function Card({ title, icon, children, className = "", gradient, glow, no
   );
 }
 
-/* ═══════════════════════════════════════════════════════
-   STAT CARD — Bento-style metric display
-   ═══════════════════════════════════════════════════════ */
+
 interface StatCardProps {
   label: string;
   value: string | number;
@@ -53,7 +49,7 @@ interface StatCardProps {
 export function StatCard({ label, value, icon, change, gradient }: StatCardProps) {
   return (
     <div className="glass rounded-2xl p-5 group relative overflow-hidden">
-      {/* Background glow orb */}
+      
       <div
         className={`absolute -top-8 -right-8 w-24 h-24 rounded-full bg-linear-to-br ${gradient} opacity-[0.07] group-hover:opacity-[0.12] blur-2xl transition-opacity duration-500`}
       />
@@ -79,9 +75,7 @@ export function StatCard({ label, value, icon, change, gradient }: StatCardProps
   );
 }
 
-/* ═══════════════════════════════════════════════════════
-   BUTTON — Premium glass-morphic buttons
-   ═══════════════════════════════════════════════════════ */
+
 interface ButtonProps {
   children: ReactNode;
   onClick?: () => void;
@@ -152,9 +146,6 @@ export function Button({
   );
 }
 
-/* ═══════════════════════════════════════════════════════
-   BADGE — Pill with subtle glow
-   ═══════════════════════════════════════════════════════ */
 interface BadgeProps {
   children: ReactNode;
   color?: "pink" | "purple" | "green" | "yellow" | "red" | "blue" | "gray";
@@ -179,9 +170,6 @@ export function Badge({ children, color = "gray" }: BadgeProps) {
   );
 }
 
-/* ═══════════════════════════════════════════════════════
-   SECTION HEADER
-   ═══════════════════════════════════════════════════════ */
 interface PageHeaderProps {
   title: string;
   subtitle: string;
@@ -208,9 +196,7 @@ export function PageHeader({ title, subtitle, icon, action }: PageHeaderProps) {
   );
 }
 
-/* ═══════════════════════════════════════════════════════
-   INPUT — Glass-morphic form input
-   ═══════════════════════════════════════════════════════ */
+
 interface InputProps {
   label?: string;
   value: string;
@@ -252,9 +238,7 @@ export function Input({
   );
 }
 
-/* ═══════════════════════════════════════════════════════
-   EMPTY STATE
-   ═══════════════════════════════════════════════════════ */
+
 export function EmptyState({ icon, message }: { icon: string; message: string }) {
   return (
     <div className="text-center py-16 animate-fadeIn">
