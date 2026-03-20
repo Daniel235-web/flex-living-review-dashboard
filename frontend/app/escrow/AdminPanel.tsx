@@ -15,10 +15,8 @@ export function AdminPanel({
   const [selectedId, setSelectedId] = useState<string>("");
   const [propertyId, setPropertyId] = useState<string>("");
   const { data: property } = useProperty(propertyId ? BigInt(propertyId) : BigInt(0));
-  // `useProperty` returns unknown from the wagmi hook; normalize to `any` for rendering
   const prop: any = property as any;
   const status = prop && prop.status !== undefined ? Number(prop.status) : undefined;
-  // extract landlord from returned struct (may be tuple/object depending on the hook)
   const landlordAddr: string | undefined = prop ? (prop.landlord as string | undefined) : undefined;
   const { address: connected } = useAccount();
   const isLandlord =
