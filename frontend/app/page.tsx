@@ -45,7 +45,6 @@ export default function DashboardPage() {
 
   if (!isConnected) return <HeroSection />;
 
-  // getReputation returns a struct: { points, onTimePayments, positiveReviews, governanceVotes, disputeWins, identityVerified, tier, lastUpdated }
   const repData = reputation as { points: bigint; tier: number } | undefined;
   const tier = repData ? Number(repData.tier) : 0;
   const points = repData ? Number(repData.points) : 0;
@@ -245,9 +244,7 @@ export default function DashboardPage() {
   );
 }
 
-/* ═══════════════════════════════════════════════════════
-   TEST TOKENS SECTION — Self-serve token minting for judges
-   ═══════════════════════════════════════════════════════ */
+
 function TestTokensSection({
   address,
   hasSBT,
@@ -292,7 +289,6 @@ function TestTokensSection({
     }
   };
 
-  // Hide section if user already has good balances
   const hasEnoughUSDC = Boolean(usdcBalance && usdcBalance > BigInt(5000) * BigInt(10) ** BigInt(6));
   const shouldShow = !hasEnoughUSDC || !hasSBT;
 
@@ -351,7 +347,6 @@ function TestTokensSection({
             </button>
           </div>
 
-          {/* Mint SBT Button */}
           <div className="p-4 rounded-xl bg-violet-500/10 border border-violet-500/20 hover:border-violet-500/40 transition-all">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
@@ -407,9 +402,7 @@ function TestTokensSection({
   );
 }
 
-/* ═══════════════════════════════════════════════════════
-   HERO — Immersive cinematic landing
-   ═══════════════════════════════════════════════════════ */
+
 function HeroSection() {
   const features = [
     {
@@ -460,9 +453,7 @@ function HeroSection() {
 
   return (
     <div className="-mx-4 sm:-mx-6 lg:-mx-8 -mt-8">
-      {/* ═══ HERO TOP SECTION ═══ */}
       <section className="relative min-h-[92vh] flex items-center justify-center overflow-hidden px-4">
-        {/* Background layers */}
         <div className="hero-grid" />
         <div className="aurora" />
         <div className="orb w-[600px] h-[600px] bg-violet-600 -top-40 -left-40" />
@@ -475,11 +466,9 @@ function HeroSection() {
           style={{ animationDelay: "-12s" }}
         />
 
-        {/* Decorative spinning rings */}
         <div className="spin-ring w-[500px] h-[500px] left-1/2 top-1/2" />
         <div className="spin-ring-reverse w-[700px] h-[700px] left-1/2 top-1/2" />
 
-        {/* Floating protocol tags */}
         <div className="absolute top-[18%] left-[8%] float-tag hidden lg:block">
           <div className="glass rounded-xl px-3 py-2 text-[11px] text-white/30 flex items-center gap-2">
             <span className="text-violet-400">◆</span> ERC-20 Votes
@@ -523,13 +512,11 @@ function HeroSection() {
             </span>
           </h1>
 
-          {/* Subtitle */}
           <p className="animate-fadeUp delay-200 text-lg sm:text-xl text-white/30 max-w-2xl mx-auto mb-6 leading-relaxed font-light">
             The <span className="text-white/60">decentralized co-living protocol</span> with trustless rent
             payments, AI-verified reviews, and soulbound reputation — all governed by its community.
           </p>
 
-          {/* Tech credits */}
           <div className="animate-fadeUp delay-300 flex items-center justify-center gap-3 mb-12">
             <span className="text-[12px] text-white/20 flex items-center gap-1.5">
               <span className="w-1 h-1 rounded-full bg-violet-500" />
@@ -547,7 +534,6 @@ function HeroSection() {
             </span>
           </div>
 
-          {/* Protocol badges */}
           <div className="animate-fadeUp delay-400 flex flex-wrap justify-center gap-2 mb-16">
             {[
               { label: "ERC-20 Votes", color: "purple" as const },
@@ -563,7 +549,6 @@ function HeroSection() {
             ))}
           </div>
 
-          {/* Scroll indicator */}
           <div className="animate-fadeUp delay-500 flex flex-col items-center gap-2">
             <span className="text-[11px] text-white/15 tracking-widest uppercase">Explore</span>
             <div className="w-5 h-8 rounded-full border border-white/10 flex items-start justify-center p-1.5">
@@ -573,7 +558,6 @@ function HeroSection() {
         </div>
       </section>
 
-      {/* ═══ STATS BAR ═══ */}
       <section className="relative border-y border-white/[0.04] bg-white/[0.01] backdrop-blur-sm">
         <div className="max-w-6xl mx-auto px-4 py-8 grid grid-cols-2 md:grid-cols-4 gap-8">
           {stats.map((s, i) => (
@@ -587,7 +571,6 @@ function HeroSection() {
         </div>
       </section>
 
-      {/* ═══ FEATURES ═══ */}
       <section className="max-w-6xl mx-auto px-4 py-24">
         <div className="text-center mb-16 animate-fadeUp">
           <p className="text-[12px] text-violet-400/60 tracking-widest uppercase mb-3 font-medium">
@@ -628,7 +611,6 @@ function HeroSection() {
         </div>
       </section>
 
-      {/* ═══ CONTRACTS ARCHITECTURE ═══ */}
       <section className="max-w-6xl mx-auto px-4 pb-24">
         <div className="text-center mb-12 animate-fadeUp">
           <p className="text-[12px] text-fuchsia-400/60 tracking-widest uppercase mb-3 font-medium">
@@ -652,7 +634,6 @@ function HeroSection() {
         </div>
       </section>
 
-      {/* ═══ CTA BOTTOM ═══ */}
       <section className="relative border-t border-white/[0.04] overflow-hidden">
         <div className="orb w-[400px] h-[400px] bg-violet-600 -bottom-40 left-1/2 -translate-x-1/2" />
         <div className="relative max-w-3xl mx-auto px-4 py-24 text-center">
