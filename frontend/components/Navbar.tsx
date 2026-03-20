@@ -124,7 +124,7 @@ export function Navbar() {
             </div>
           </div>
 
-          {/* Mobile menu */}
+         
           {mobileOpen && (
             <div className="md:hidden pb-4 space-y-1 animate-fadeUp">
               {navLinks.map((l) => {
