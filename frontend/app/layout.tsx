@@ -3,7 +3,6 @@ import "./globals.css";
 import { Providers } from "./providers";
 import { Navbar } from "@/components/Navbar";
 
-// Google Fonts disabled for offline build; rely on system/tailwind fonts
 
 export const metadata: Metadata = {
   title: "FlexLiving DAO — Decentralized Co-Living",
