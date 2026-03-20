@@ -70,9 +70,7 @@ export default function ReputationPage() {
         </Card>
       ) : (
         <>
-          {/* Tier Display — Hero Card */}
           <div className="glass rounded-2xl p-8 text-center relative overflow-hidden animate-fadeUp">
-            {/* Animated orbs */}
             <div className={`absolute top-0 left-1/4 w-40 h-40 rounded-full bg-linear-to-br ${TIER_GRADIENTS[tier]} opacity-[0.06] blur-3xl orb`} />
             <div className={`absolute bottom-0 right-1/4 w-32 h-32 rounded-full bg-linear-to-br ${TIER_GRADIENTS[tier]} opacity-[0.04] blur-2xl orb`} style={{ animationDelay: "-3s" }} />
             <div className="relative">
@@ -109,7 +107,6 @@ export default function ReputationPage() {
             </div>
           </div>
 
-          {/* Stats */}
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 stagger">
             <StatCard
               icon="💰"
@@ -149,7 +146,6 @@ export default function ReputationPage() {
             />
           </div>
 
-          {/* Point Rewards */}
           <div className="animate-fadeUp" style={{ animationDelay: "0.1s" }}>
             <Card title="How to Earn Points" icon="📈">
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 stagger">
@@ -178,7 +174,6 @@ export default function ReputationPage() {
             </Card>
           </div>
 
-          {/* Tier Progression */}
           <div className="animate-fadeUp" style={{ animationDelay: "0.2s" }}>
             <Card title="Tier Progression" icon="🏆">
               <div className="flex flex-wrap justify-center gap-3">
