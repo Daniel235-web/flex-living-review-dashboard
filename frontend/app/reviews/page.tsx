@@ -38,7 +38,6 @@ export default function ReviewsPage() {
 
       {showForm && <ReviewForm onDone={() => setShowForm(false)} />}
 
-      {/* Property Selector */}
       {count > 0 && (
         <div className="animate-fadeUp flex items-center gap-3 flex-wrap">
           <label className="text-[13px] text-white/30">Select Property:</label>
@@ -60,13 +59,10 @@ export default function ReviewsPage() {
         </div>
       )}
 
-      {/* Property Sentiment Overview */}
       <PropertySentiment propertyId={BigInt(selectedProperty)} />
 
-      {/* Reviews List */}
       <PropertyReviewsList propertyId={BigInt(selectedProperty)} />
 
-      {/* Feature Cards */}
       <div className="animate-fadeUp" style={{ animationDelay: "0.2s" }}>
         <Card title="Review System Features" icon="🤖">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 stagger">
