@@ -54,7 +54,6 @@ export default function GovernancePage() {
         </div>
       )}
 
-      {/* Delegation */}
       <div className="animate-fadeUp" style={{ animationDelay: "0.05s" }}>
         <Card title="Delegate Voting Power" icon="🗳️" glow="purple">
           <p className="text-[13px] text-white/35 mb-5">
@@ -103,7 +102,6 @@ export default function GovernancePage() {
         </Card>
       </div>
 
-      {/* Governor Parameters */}
       <div className="animate-fadeUp" style={{ animationDelay: "0.1s" }}>
         <Card title="Governor Parameters" icon="⚙️">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 stagger">
@@ -158,7 +156,6 @@ export default function GovernancePage() {
         </Card>
       </div>
 
-      {/* Proposal Lifecycle */}
       <div className="animate-fadeUp" style={{ animationDelay: "0.15s" }}>
         <Card title="Proposal Lifecycle" icon="📜">
           <div className="flex flex-col md:flex-row gap-2 items-stretch">
@@ -191,7 +188,6 @@ export default function GovernancePage() {
         </Card>
       </div>
 
-      {/* Governance Actions */}
       <div className="animate-fadeUp" style={{ animationDelay: "0.2s" }}>
         <Card title="What Can Governance Control?" icon="🏛️">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
