@@ -20,7 +20,7 @@ export function Navbar() {
 
   const isWrongNetwork = isConnected && chainId !== polkadotHubTestnet.id;
 
-  // Auto-switch to correct chain on connect
+ 
   useEffect(() => {
     if (isWrongNetwork && switchChain) {
       switchChain({ chainId: polkadotHubTestnet.id });
@@ -52,7 +52,7 @@ export function Navbar() {
               </span>
             </Link>
 
-            {/* Desktop Nav */}
+           
             <div className="hidden md:flex items-center gap-0.5 bg-white/[0.03] rounded-xl p-1">
               {navLinks.map((l) => {
                 const isActive = pathname === l.href;
@@ -71,7 +71,7 @@ export function Navbar() {
               })}
             </div>
 
-            {/* Wallet */}
+            
             <div className="flex items-center gap-2.5">
               {isConnected ? (
                 <div className="flex items-center gap-2">
@@ -102,7 +102,7 @@ export function Navbar() {
                 </button>
               )}
 
-              {/* Mobile toggle */}
+            
               <button
                 className="md:hidden w-9 h-9 rounded-xl bg-white/[0.04] border border-white/[0.06] flex items-center justify-center text-white/40 hover:text-white/70 transition-colors"
                 onClick={() => setMobileOpen(!mobileOpen)}
