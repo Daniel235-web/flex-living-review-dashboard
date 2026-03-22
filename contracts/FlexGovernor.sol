@@ -10,26 +10,7 @@ import {GovernorSettings} from "@openzeppelin/contracts/governance/extensions/Go
 import {TimelockController} from "@openzeppelin/contracts/governance/TimelockController.sol";
 import {IVotes} from "@openzeppelin/contracts/governance/utils/IVotes.sol";
 
-/**
- * @title FlexGovernor
- * @author FlexLiving DAO — Polkadot Solidity Hackathon 2026
- * @notice On-chain governance for the FlexLiving co-living ecosystem.
- *         FLEX token holders can propose and vote on:
- *         - Platform fee adjustments
- *         - New property verifier appointments
- *         - Dispute resolution policies
- *         - Treasury spending (community improvements, maintenance funds)
- *         - Protocol upgrades
- *         - Reward rate changes
- *
- * @dev Deep OpenZeppelin Governor composition:
- *      - GovernorVotes: voting power from FlexToken (ERC20Votes)
- *      - GovernorCountingSimple: For/Against/Abstain voting
- *      - GovernorVotesQuorumFraction: 4% quorum requirement
- *      - GovernorTimelockControl: 1-day timelock on execution
- *      - GovernorSettings: configurable voting delay, period, threshold
- *      - Timestamp-based (auto-detected from FlexToken's CLOCK_MODE)
- */
+
 contract FlexGovernor is
     Governor,
     GovernorSettings,
@@ -53,11 +34,7 @@ contract FlexGovernor is
         GovernorTimelockControl(_timelock)
     {}
 
-    // ═══════════════════════════════════════════════════════════════
-    //                   REQUIRED OVERRIDES
-    //   Governor has a complex diamond inheritance that requires
-    //   explicit resolution of all virtual functions.
-    // ═══════════════════════════════════════════════════════════════
+ 
 
     function votingDelay()
         public
